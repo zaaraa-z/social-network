@@ -5,7 +5,7 @@ if (mysqli_connect_errno()) {
 }
 
 
-//declaring form variables
+//declaring form variables-----------------------
 $fname = '';
 $lname = '';
 $email1 = '';
@@ -16,7 +16,7 @@ $date = ''; //sign-up date
 $error_array = ''; //holds error messages
 
 
-//post registration values
+//post registration values-----------------------
 if (isset($_POST['reg-btn'])) {
     $fname = strip_tags($_POST['reg-fname']); //remove html tags
     $fname = str_replace(' ', '', $fname); //remove spaces
@@ -37,6 +37,19 @@ if (isset($_POST['reg-btn'])) {
     $pass2 = strip_tags($_POST['reg-pass2']);
 
     $date = date('Y-m-d');
+
+
+    //handling form errors------
+    if ($email1 == $email2) {
+        //check the email format
+        if (filter_var($email1, FILTER_VALIDATE_EMAIL)) {
+            $email1 = filter_var($email1, FILTER_VALIDATE_EMAIL);
+        } else {
+            echo 'Email Format is not valid!';
+        }
+    } else {
+        echo 'Emails do not match!';
+    }
 }
 
 
