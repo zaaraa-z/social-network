@@ -44,6 +44,13 @@ if (isset($_POST['reg-btn'])) {
         //check the email format
         if (filter_var($email1, FILTER_VALIDATE_EMAIL)) {
             $email1 = filter_var($email1, FILTER_VALIDATE_EMAIL);
+
+            //check if email already exists
+            $email_existence_check = mysqli_query($con, "SELECT email FROM users WHERE email = '$email1'");
+            $num_rows = mysqli_num_rows($email_existence_check);
+            if ($num_rows > 0) {
+                echo 'This email already exists!';
+            }
         } else {
             echo 'Email Format is not valid!';
         }
