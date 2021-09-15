@@ -5,6 +5,41 @@ if (mysqli_connect_errno()) {
 }
 
 
+//declaring form variables
+$fname = '';
+$lname = '';
+$email1 = '';
+$email2 = '';
+$pass1 = '';
+$pass2 = '';
+$date = ''; //sign-up date
+$error_array = ''; //holds error messages
+
+
+//post registration values
+if (isset($_POST['reg-btn'])) {
+    $fname = strip_tags($_POST['reg-fname']); //remove html tags
+    $fname = str_replace(' ', '', $fname); //remove spaces
+    $fname = ucfirst(strtolower($fname)); //only first letter is uppercase
+
+    $lname = strip_tags($_POST['reg-lname']);
+    $lname = str_replace(' ', '', $lname);
+    $lname = ucfirst(strtolower($lname));
+
+    $email1 = strip_tags($_POST['reg-email1']);
+    $email1 = str_replace(' ', '', $email1);
+
+    $email2 = strip_tags($_POST['reg-email2']);
+    $email2 = str_replace(' ', '', $email2);
+
+    $pass1 = strip_tags($_POST['reg-pass1']);
+
+    $pass2 = strip_tags($_POST['reg-pass2']);
+
+    $date = date('Y-m-d');
+}
+
+
 ?>
 
 
