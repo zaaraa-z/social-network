@@ -19,7 +19,7 @@ $error_array = array(); //holds error messages
 
 
 
-//post registration values-----------------------
+//check inputs and send values after clicking register button-----------------------
 if (isset($_POST['reg-btn'])) {
     $fname = strip_tags($_POST['reg-fname']); //to remove html tags
     $fname = str_replace(' ', '', $fname); //to remove spaces
@@ -88,12 +88,33 @@ if (isset($_POST['reg-btn'])) {
     if (strlen($pass1) > 30 || strlen($pass1) < 5) {
         array_push($error_array, 'Password must have between 3 to 30 characters!');
     }
+
+
+
+    //get registration values in database in case there is no error------
+    if (empty($error_array)) {
+        //encript the password
+        $pass1 = md5($pass1);
+
+        //generate username
+        $username = strtolower($fname . '_' . $lname);
+
+        //check if username already exists
+        $username_existence_check = mysqli_query($con, "SELECT username FROM users WHERE username = '$username'");
+
+        //add numbers to username in case it already exists
+        $i = 0;
+        while ($username_existence_check != 0) {
+            $i++;
+            $username = $username . '_' . $i;
+            $username_existence_check = mysqli_query($con, "SELECT username FROM users WHERE username = '$username'");
+        }
+    }
 }
 
 
 
-//get registration values in database-----------------------
-//TODO
+
 
 ?>
 
