@@ -56,7 +56,8 @@ if (isset($_POST['reg-btn'])) {
             $email_existence_check = mysqli_query($con, "SELECT email FROM users WHERE email = '$email1'");
             $num_rows = mysqli_num_rows($email_existence_check);
             if ($num_rows > 0) {
-                //OLD: echo 'This email already exists!';
+                //OLDWAY: echo 'This email already exists!';
+                //(we want messeges appear below the related line)
                 array_push($error_array, 'This email already exists!');
             }
         } else {
@@ -92,7 +93,7 @@ if (isset($_POST['reg-btn'])) {
 
 
 //get registration values in database-----------------------
-
+//TODO
 
 ?>
 
@@ -119,10 +120,18 @@ if (isset($_POST['reg-btn'])) {
                                                                         if (isset($_SESSION['reg-fname'])) {
                                                                             echo $_SESSION['reg-fname'];
                                                                         } ?>" required>
+    <?php
+    if (in_array('First name must have between 2 to 20 characters!', $error_array)) echo 'First name must have between 2 to 20 characters!';
+    ?>
+
     <input type="text" name="reg-lname" placeholder="Last Name" value="<?php
                                                                         if (isset($_SESSION['reg-lname'])) {
                                                                             echo $_SESSION['reg-lname'];
                                                                         } ?>" required>
+    <?php
+    if (in_array('Last name must have between 2 to 50 characters!', $error_array)) echo 'Last name must have between 2 to 50 characters!';
+    ?>
+
     <input type="email" name="reg-email1" placeholder="Email" value="<?php
                                                                         if (isset($_SESSION['reg-email1'])) {
                                                                             echo $_SESSION['reg-email1'];
@@ -131,7 +140,20 @@ if (isset($_POST['reg-btn'])) {
                                                                                 if (isset($_SESSION['reg-email2'])) {
                                                                                     echo $_SESSION['reg-email2'];
                                                                                 } ?>" required>
+    <?php
+    if (in_array('This email already exists!', $error_array)) echo 'This email already exists!';
+    if (in_array('Email Format is not valid!', $error_array)) echo 'Email Format is not valid!';
+    if (in_array('Emails do not match!', $error_array)) echo 'Emails do not match!';
+    ?>
+
+
     <input type="password" name="reg-pass1" placeholder="Pasword" required>
     <input type="password" name="reg-pass2" placeholder="Confirm Pasword" required>
+    <?php
+    if (in_array('Passwords do not match!', $error_array)) echo 'Passwords do not match!';
+    if (in_array('Password can only have English characters/numbers!', $error_array)) echo 'Password can only have English characters/numbers!';
+    if (in_array('Password must have between 3 to 30 characters!', $error_array)) echo 'Password must have between 3 to 30 characters!';
+    ?>
+
     <input type="submit" name="reg-btn" value="Register">
 </form>
