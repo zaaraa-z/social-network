@@ -15,7 +15,7 @@ $email2 = '';
 $pass1 = '';
 $pass2 = '';
 $date = ''; //sign-up date
-$error_array = ''; //holds error messages
+$error_array = array(); //holds error messages
 
 
 
@@ -56,35 +56,36 @@ if (isset($_POST['reg-btn'])) {
             $email_existence_check = mysqli_query($con, "SELECT email FROM users WHERE email = '$email1'");
             $num_rows = mysqli_num_rows($email_existence_check);
             if ($num_rows > 0) {
-                echo 'This email already exists!';
+                //OLD: echo 'This email already exists!';
+                array_push($error_array, 'This email already exists!');
             }
         } else {
-            echo 'Email Format is not valid!';
+            array_push($error_array, 'Email Format is not valid!');
         }
     } else {
-        echo 'Emails do not match!';
+        array_push($error_array, 'Emails do not match!');
     }
 
     //first name
     if (strlen($fname) > 20 || strlen($fname) < 2) {
-        echo 'First name must have between 2 to 20 characters!';
+        array_push($error_array, 'First name must have between 2 to 20 characters!');
     }
 
     //last name
     if (strlen($lname) > 50 || strlen($lname) < 2) {
-        echo 'Last name must have between 2 to 50 characters!';
+        array_push($error_array, 'Last name must have between 2 to 50 characters!');
     }
 
     //password
     if ($pass1 != $pass2) {
-        echo 'Passwords do not match!';
+        array_push($error_array, 'Passwords do not match!');
     } else {
         if (preg_match('/[^A-Za-z0-9]/', $pass1)) {
-            echo 'Password can only have English characters/numbers!';
+            array_push($error_array, 'Password can only have English characters/numbers!');
         }
     }
     if (strlen($pass1) > 30 || strlen($pass1) < 5) {
-        echo 'Password must have between 3 to 30 characters!';
+        array_push($error_array, 'Password must have between 3 to 30 characters!');
     }
 }
 
